@@ -1,0 +1,7 @@
+{
+  "name": "Becker Reformas e Manutenção",
+  "description": "Landing page de alta conversão para empreiteira de reformas e manutenção predial em Balneário Piçarras.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
