@@ -165,22 +165,25 @@ export default function App() {
         }
       );
 
-      // Horizontal scroll for services
-      const track = document.querySelector(".services-track");
-      if (track) {
-        gsap.to(track, {
-          x: () => -(track.scrollWidth - window.innerWidth + 100),
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#servicos-pin",
-            start: "top top",
-            end: () => `+=${track.scrollWidth}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
-        });
-      }
+      // Horizontal scroll for services - desktop only
+      let mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        const track = document.querySelector(".services-track");
+        if (track) {
+          gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth + 100),
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#servicos-pin",
+              start: "top top",
+              end: () => `+=${track.scrollWidth}`,
+              pin: true,
+              scrub: 1,
+              invalidateOnRefresh: true,
+            }
+          });
+        }
+      });
     }, containerRef);
 
     return () => {
@@ -201,36 +204,77 @@ export default function App() {
       </div>
 
       {/* Navbar */}
-      <nav className="fixed top-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
-        <div className="pointer-events-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 py-2 flex items-center gap-1 shadow-2xl transition-all hover:bg-white/10">
-          {[
-            { label: 'Início', id: 'inicio' },
-            { label: 'Serviços', id: 'servicos' },
-            { label: 'Qualidade', id: 'qualidade' },
-            { label: 'Galeria', id: 'galeria' },
-            { label: 'Contato', id: 'contato' }
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => {
-                document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-6 py-2 text-xs font-medium text-white/70 hover:text-white rounded-full hover:bg-white/5 transition-all"
-            >
-              {item.label}
-            </button>
-          ))}
-          <div className="w-px h-4 bg-white/10 mx-2" />
+      <nav className="fixed top-4 md:top-8 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
+        <div className="pointer-events-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 py-2 flex items-center shadow-2xl transition-all hover:bg-white/10 w-full max-w-fit justify-between">
+          <div className="hidden md:flex items-center">
+            {[
+              { label: 'Início', id: 'inicio' },
+              { label: 'Serviços', id: 'servicos' },
+              { label: 'Qualidade', id: 'qualidade' },
+              { label: 'Galeria', id: 'galeria' },
+              { label: 'Contato', id: 'contato' }
+            ].map((item) => (
+              <button
+                key={item.label}
+                onClick={() => {
+                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-4 lg:px-6 py-2 text-xs font-medium text-white/70 hover:text-white rounded-full hover:bg-white/5 transition-all whitespace-nowrap"
+              >
+                {item.label}
+              </button>
+            ))}
+            <div className="w-px h-4 bg-white/10 mx-2" />
+          </div>
+
+          <button 
+            className="md:hidden px-4 pl-2 py-2 text-white/70 hover:text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
           <a 
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="group px-6 py-2 text-xs font-bold text-[#012D46] bg-white rounded-full hover:bg-[#2F7FB4] hover:text-white transition-all shadow-lg"
+            className="group px-4 md:px-6 py-2 text-xs font-bold text-[#012D46] bg-white rounded-full hover:bg-[#2F7FB4] hover:text-white transition-all shadow-lg whitespace-nowrap ml-2 md:ml-0 flex items-center shrink-0"
           >
             Orçamento <ArrowRight size={14} className="inline-block ml-1 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-20 left-4 right-4 z-40 bg-[#012D46]/95 backdrop-blur-3xl border border-white/10 rounded-3xl p-4 flex flex-col gap-2 md:hidden shadow-2xl"
+          >
+            {[
+              { label: 'Início', id: 'inicio' },
+              { label: 'Serviços', id: 'servicos' },
+              { label: 'Qualidade', id: 'qualidade' },
+              { label: 'Galeria', id: 'galeria' },
+              { label: 'Contato', id: 'contato' }
+            ].map((item) => (
+              <button
+                key={item.label}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full text-left px-6 py-4 text-sm font-medium text-white/70 hover:text-white rounded-2xl hover:bg-white/5 transition-all"
+              >
+                {item.label}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section id="inicio" className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -352,13 +396,13 @@ export default function App() {
 
       {/* Horizontal Services Section */}
       <div id="servicos" className="relative z-30">
-        <section id="servicos-pin" className="h-screen relative overflow-hidden bg-[#012D46] border-t border-white/5">
-          <div className="absolute top-12 left-12 z-20">
+        <section id="servicos-pin" className="md:h-screen relative overflow-hidden bg-[#012D46] border-t border-white/5 py-20 md:py-0">
+          <div className="md:absolute top-12 left-12 z-20 px-6 md:px-0 mb-12 md:mb-0">
             <span className="text-xs text-blue-400 font-mono mb-3 block tracking-widest uppercase">[ Nossas Especialidades ]</span>
             <h2 className="text-4xl font-medium text-white tracking-tight">O que fazemos de melhor</h2>
           </div>
 
-          <div className="services-track flex gap-16 px-24 pl-[20vw] items-center h-full w-max">
+          <div className="services-track flex flex-col md:flex-row gap-8 md:gap-16 px-6 md:px-24 md:pl-[20vw] items-center md:h-full md:w-max">
             {[
               {
                 title: 'Reformas Residenciais',
@@ -385,17 +429,17 @@ export default function App() {
                 img: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9'
               }
             ].map((service, i) => (
-              <div key={i} className="w-[70vw] max-w-[800px] h-[60vh] spotlight-card rounded-[3rem] p-16 shrink-0 flex items-center gap-12 border border-white/10 bg-white/[0.02]">
-                <div className="w-1/2 flex flex-col justify-center">
-                  <div className="mb-8">{service.icon}</div>
-                  <h3 className="text-5xl text-white font-medium mb-6 tracking-tight">{service.title}</h3>
-                  <p className="text-lg text-slate-400 leading-relaxed">{service.desc}</p>
+              <div key={i} className="w-full md:w-[70vw] max-w-[800px] h-auto md:h-[60vh] spotlight-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 shrink-0 flex flex-col md:flex-row items-center gap-8 md:gap-12 border border-white/10 bg-white/[0.02]">
+                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                  <div className="mb-6 md:mb-8">{service.icon}</div>
+                  <h3 className="text-3xl md:text-5xl text-white font-medium mb-4 md:mb-6 tracking-tight">{service.title}</h3>
+                  <p className="text-base md:text-lg text-slate-400 leading-relaxed">{service.desc}</p>
                 </div>
-                <div className="w-1/2 h-full rounded-2xl overflow-hidden">
+                <div className="w-full md:w-1/2 h-64 md:h-full rounded-2xl overflow-hidden border border-white/5">
                   <img 
                     src={getImageUrl(service.img)} 
                     alt={service.title} 
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-full object-cover grayscale md:hover:grayscale-0 transition-all duration-700"
                     referrerPolicy="no-referrer"
                   />
                 </div>
