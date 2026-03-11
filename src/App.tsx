@@ -931,14 +931,24 @@ const ContactForm = () => {
     const formData = new FormData(e.currentTarget);
     
     try {
-      const response = await fetch('/send_email.php', {
+      // Usando Object.fromEntries para converter FormData em JSON para a API Node.js
+      const data = Object.fromEntries(formData.entries());
+      
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
       
       if (response.ok) {
         setStatus('success');
         (e.target as HTMLFormElement).reset();
+        // Redireciona para a página de obrigado após 1.5 segundos para o usuário ver o feedback de sucesso
+        setTimeout(() => {
+          window.location.href = '/obrigado.html';
+        }, 1500);
       } else {
         setStatus('error');
       }
