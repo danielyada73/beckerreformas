@@ -237,9 +237,9 @@ export default function App() {
         <div className="perspective-grid opacity-30" />
         <div className="absolute inset-0 z-0">
           <img 
-            src={getImageUrl(HERO_BG_ID)} 
+            src="/banner-hero.jpg" 
             alt="Background" 
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -254,19 +254,19 @@ export default function App() {
             <span className="text-[10px] uppercase tracking-widest text-white/80 font-medium">Balneário Piçarras e Região</span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter text-white leading-[0.9] mb-10">
+          <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter text-[#012D46] leading-[0.9] mb-10">
             <div className="overflow-hidden py-2"><span className="block reveal-text">Reformas e Manutenção</span></div>
-            <div className="overflow-hidden py-2"><span className="block reveal-text text-gradient-premium animate-text-shimmer">Máxima Segurança</span></div>
+            <div className="overflow-hidden py-2"><span className="block reveal-text text-[#2F7FB4] animate-text-shimmer">Máxima Segurança</span></div>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed mb-14 font-light">
+          <p className="text-lg md:text-xl text-slate-600 max-w-xl mx-auto leading-relaxed mb-14 font-light">
             Melhor atendimento da região. A Becker Reformas une confiança e responsabilidade para entregar o compromisso que sua estrutura exige.
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
             <a 
               href={WHATSAPP_LINK}
-              className="group relative px-9 py-4 bg-white text-[#012D46] rounded-full overflow-hidden transition-all hover:scale-105 shadow-xl"
+              className="group relative px-9 py-4 bg-[#012D46] text-white rounded-full overflow-hidden transition-all hover:scale-105 shadow-xl"
             >
               <span className="relative z-10 text-sm font-bold flex items-center gap-2">
                 Solicitar Orçamento
@@ -275,7 +275,7 @@ export default function App() {
             </a>
             <button 
               onClick={() => document.getElementById('servicos')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-9 py-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all text-white font-medium text-sm"
+              className="px-9 py-4 rounded-full border border-[#012D46]/10 bg-[#012D46]/5 backdrop-blur-sm hover:bg-[#012D46]/10 transition-all text-[#012D46] font-medium text-sm"
             >
               Ver Serviços
             </button>

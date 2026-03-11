@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $to = 'contato.yadastudio@gmail.com, beckerluciano09@gmail.com';
     
     // Subject
-    $subject = 'Novo Orçamento - Leads vindo do Site feito pela Sabrina';
+    $subject = 'Orçamento Rápido - Site Becker';
 
     // Headers
     $headers = "From: Becker Reformas <no-reply@hopecompany.com.br>\r\n";
