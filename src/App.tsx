@@ -773,10 +773,9 @@ export default function App() {
               <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
                 <div className="w-full h-full rounded-full bg-white p-1">
                   <img 
-                    src={getImageUrl(LOGO_ID)} 
+                    src="/favicon.png" 
                     alt="Becker Logo" 
                     className="w-full h-full object-contain rounded-full"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
@@ -956,10 +955,9 @@ export default function App() {
             </div>
             <div className="flex flex-col items-end">
               <img 
-                src={getImageUrl(LOGO_ID)} 
+                src="/favicon.png" 
                 alt="Becker Logo" 
-                className="h-12 w-auto mb-8 brightness-0 invert opacity-50"
-                referrerPolicy="no-referrer"
+                className="h-12 w-auto mb-8 opacity-70"
               />
               <p className="text-xs text-slate-500 text-right">© 2026 Becker Reformas. <br /> Todos os direitos reservados.</p>
             </div>
