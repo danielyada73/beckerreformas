@@ -209,9 +209,9 @@ export default function App() {
           <div className="hidden md:flex items-center">
             {[
               { label: 'Início', id: 'inicio' },
-              { label: 'Serviços', id: 'servicos' },
-              { label: 'Qualidade', id: 'qualidade' },
-              { label: 'Galeria', id: 'galeria' },
+              { label: 'Soluções', id: 'servicos' },
+              { label: 'Processo', id: 'qualidade' },
+              { label: 'Diferenciais', id: 'galeria' },
               { label: 'Contato', id: 'contato' }
             ].map((item) => (
               <button
@@ -240,7 +240,7 @@ export default function App() {
             rel="noopener noreferrer"
             className="group px-4 md:px-6 py-2 text-xs font-bold text-[#012D46] bg-white rounded-full hover:bg-[#2F7FB4] hover:text-white transition-all shadow-lg whitespace-nowrap ml-2 md:ml-0 flex items-center shrink-0"
           >
-            Orçamento <ArrowRight size={14} className="inline-block ml-1 group-hover:translate-x-1 transition-transform" />
+            Agendar Reunião Técnica <ArrowRight size={14} className="inline-block ml-1 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
       </nav>
@@ -256,9 +256,9 @@ export default function App() {
           >
             {[
               { label: 'Início', id: 'inicio' },
-              { label: 'Serviços', id: 'servicos' },
-              { label: 'Qualidade', id: 'qualidade' },
-              { label: 'Galeria', id: 'galeria' },
+              { label: 'Soluções', id: 'servicos' },
+              { label: 'Processo', id: 'qualidade' },
+              { label: 'Diferenciais', id: 'galeria' },
               { label: 'Contato', id: 'contato' }
             ].map((item) => (
               <button
@@ -299,12 +299,12 @@ export default function App() {
           </motion.div>
 
           <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter text-[#012D46] leading-[0.9] mb-10">
-            <div className="overflow-hidden py-2"><span className="block reveal-text">Reformas e Manutenção</span></div>
-            <div className="overflow-hidden py-2"><span className="block reveal-text text-[#2F7FB4] animate-text-shimmer">Máxima Segurança</span></div>
+            <div className="overflow-hidden py-2"><span className="block reveal-text">Engenharia e Manutenção</span></div>
+            <div className="overflow-hidden py-2"><span className="block reveal-text text-[#2F7FB4] animate-text-shimmer">Predial</span></div>
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 max-w-xl mx-auto leading-relaxed mb-14 font-light">
-            Melhor atendimento da região. A Becker Reformas une confiança e responsabilidade para entregar o compromisso que sua estrutura exige.
+            Especialistas em reformas estruturais e revitalização de fachadas em Balneário Piçarras. Garantimos conformidade total com as normas ABNT e tranquilidade para a gestão do síndico.
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
@@ -313,7 +313,7 @@ export default function App() {
               className="group relative px-9 py-4 bg-[#012D46] text-white rounded-full overflow-hidden transition-all hover:scale-105 shadow-xl"
             >
               <span className="relative z-10 text-sm font-bold flex items-center gap-2">
-                Solicitar Orçamento
+                Agendar Reunião Diagnóstica Sem Custo
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </span>
             </a>
@@ -321,7 +321,7 @@ export default function App() {
               onClick={() => document.getElementById('servicos')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-9 py-4 rounded-full border border-[#012D46]/10 bg-[#012D46]/5 backdrop-blur-sm hover:bg-[#012D46]/10 transition-all text-[#012D46] font-medium text-sm"
             >
-              Ver Serviços
+              Ver Soluções
             </button>
           </div>
         </div>
@@ -334,14 +334,14 @@ export default function App() {
             <div className="md:col-span-4 flex flex-col justify-center p-6">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                <span className="text-xs text-blue-400 font-mono tracking-widest uppercase">Diferenciais</span>
+                <span className="text-xs text-blue-400 font-mono tracking-widest uppercase">Autoridade</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white mb-8 leading-[1.1]">
-                Construindo com <br />
-                <span className="text-white/40">Responsabilidade.</span>
+                Engenharia Predial <br />
+                <span className="text-white/40">com Responsabilidade.</span>
               </h2>
               <p className="text-slate-400 text-base mb-10 leading-relaxed border-l border-white/10 pl-6">
-                A Becker não é apenas uma empreiteira. É um sistema de trabalho refinado por anos de experiência, focado em entregar não apenas obras, mas tranquilidade.
+                A Becker atua no mercado de Santa Catarina com foco em infraestrutura e segurança predial. Nossa equipe é liderada por especialistas com registro ativo no CREA-SC e experiência em normas NBR 15.575.
               </p>
             </div>
 
@@ -353,7 +353,7 @@ export default function App() {
                     <span className="text-blue-400 text-5xl font-light mt-1">%</span>
                   </div>
                   <div className="text-xl text-white font-medium mt-2">Foco em Segurança</div>
-                  <p className="text-sm text-slate-400 mt-2">Equipe treinada e equipada com os melhores EPIs do mercado.</p>
+                   <p className="text-sm text-slate-400 mt-2">Equipe treinada em NR-35 (Trabalho em Altura) e NR-18, com seguro de responsabilidade civil.</p>
                 </div>
                 <ShieldCheck className="text-blue-400/20 absolute right-6 bottom-6" size={120} />
               </SpotlightCard>
@@ -364,18 +364,18 @@ export default function App() {
                     <div className="p-2 rounded-full bg-blue-400/10 border border-blue-400/20">
                       <Clock className="text-blue-400" size={20} />
                     </div>
-                    <span className="text-xl font-medium text-white">Prazos Reais</span>
+                    <span className="text-xl font-medium text-white">Cronograma Rigoroso</span>
                   </div>
-                  <p className="text-sm text-slate-400">Compromisso rigoroso com o cronograma estabelecido, sem surpresas.</p>
+                  <p className="text-sm text-slate-400">Cronograma físico-financeiro com relatórios semanais para controle total do condomínio.</p>
                 </SpotlightCard>
                 <SpotlightCard className="min-h-[180px]">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 rounded-full bg-blue-400/10 border border-blue-400/20">
                       <MapPin className="text-blue-400" size={20} />
                     </div>
-                    <span className="text-xl font-medium text-white">Localização</span>
+                    <span className="text-xl font-medium text-white">ART em Todos os Serviços</span>
                   </div>
-                  <p className="text-sm text-slate-400">Referência em Balneário Piçarras e toda a região litorânea.</p>
+                  <p className="text-sm text-slate-400">Emissão de Anotação de Responsabilidade Técnica garantindo conformidade legal em cada etapa.</p>
                 </SpotlightCard>
               </div>
             </div>
@@ -387,7 +387,7 @@ export default function App() {
       <section id="narrative" className="min-h-screen flex items-center justify-center relative overflow-hidden z-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <p className="text-4xl md:text-6xl lg:text-7xl font-normal leading-tight tracking-tight text-white flex flex-wrap justify-center gap-x-4 gap-y-2">
-            {"Você sabe o que é contratar um serviço e viver com medo de prazos estourados ou acidentes? O setor de reformas é cheio de amadorismo. A Becker entrega não apenas mão de obra, mas engenharia de tranquilidade.".split(" ").map((word, i) => (
+            {"Você sabe o que é a responsabilidade civil e criminal de um síndico diante de uma obra mal executada? Infiltrações negligenciadas e reformas sem acompanhamento técnico são riscos graves à segurança dos moradores. A Becker entrega conformidade legal e valorização imobiliária.".split(" ").map((word, i) => (
               <span key={i} className="highlight-word inline-block">{word}</span>
             ))}
           </p>
@@ -398,33 +398,33 @@ export default function App() {
       <div id="servicos" className="relative z-30">
         <section id="servicos-pin" className="md:h-screen relative overflow-hidden bg-[#012D46] border-t border-white/5 py-20 md:py-0">
           <div className="md:absolute top-12 left-12 z-20 px-6 md:px-0 mb-12 md:mb-0">
-            <span className="text-xs text-blue-400 font-mono mb-3 block tracking-widest uppercase">[ Nossas Especialidades ]</span>
-            <h2 className="text-4xl font-medium text-white tracking-tight">O que fazemos de melhor</h2>
+            <span className="text-xs text-blue-400 font-mono mb-3 block tracking-widest uppercase">[ Nossas Soluções Corporativas ]</span>
+            <h2 className="text-4xl font-medium text-white tracking-tight">Especialidades em Engenharia Predial</h2>
           </div>
 
           <div className="services-track flex flex-col md:flex-row gap-8 md:gap-16 px-6 md:px-24 md:pl-[20vw] items-center md:h-full md:w-max">
             {[
               {
-                title: 'Reformas Residenciais',
-                desc: 'Do piso ao teto. Modernizamos sua casa com alto padrão e durabilidade.',
+                title: 'Revitalização e Pintura de Fachadas',
+                desc: 'Tratamento de fissuras, lavagem técnica e pintura com tintas elastoméricas de alta durabilidade para proteção contra a maresia.',
                 icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Paintbrush className="text-blue-400" size={40} /></div>,
                 img: '110mp0drTx6sJISMihQHh75dV6RnGNtV4'
               },
               {
-                title: 'Manutenção Predial',
-                desc: 'Evite problemas estruturais graves com vistorias e reparos preventivos.',
+                title: 'Impermeabilização Estrutural',
+                desc: 'Soluções definitivas para lajes, reservatórios, piscinas e garagens, eliminando infiltrações e protegendo a armadura de ferro.',
                 icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Building2 className="text-blue-400" size={40} /></div>,
                 img: '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV'
               },
               {
-                title: 'Reparos em Geral',
-                desc: 'Soluções rápidas para problemas do cotidiano com mão de obra técnica.',
+                title: 'Recuperação Estrutural',
+                desc: 'Diagnóstico e reparo de patologias em vigas, pilares e sacadas, garantindo a integridade da edificação a longo prazo.',
                 icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Hammer className="text-blue-400" size={40} /></div>,
                 img: '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E'
               },
               {
-                title: 'Áreas de Lazer',
-                desc: 'Cuidamos da infraestrutura do seu condomínio com agilidade e compromisso.',
+                title: 'Manutenção Preventiva Contratual',
+                desc: 'Planos anuais de vistoria e pequenos reparos que evitam gastos emergenciais elevados e mantêm o valor do imóvel.',
                 icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Trees className="text-blue-400" size={40} /></div>,
                 img: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9'
               }
@@ -454,27 +454,27 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div className="lg:sticky lg:top-32 self-start">
-              <span className="text-xs text-blue-400 font-mono mb-6 block tracking-widest uppercase">[ O Processo ]</span>
+              <span className="text-xs text-blue-400 font-mono mb-6 block tracking-widest uppercase">[ Timeline de Execução Predial ]</span>
               <h2 className="text-4xl md:text-6xl font-medium text-white tracking-tight mb-8 leading-[1.1]">
                 Como entregamos <br /> <span className="text-white/40">Excelência.</span>
               </h2>
               <p className="text-slate-400 text-lg leading-relaxed mb-12">
-                Nossa metodologia é desenhada para eliminar o estresse da obra. Do primeiro contato à entrega das chaves, você tem transparência total.
+                SLA Becker: Garantia de 5 anos para serviços estruturais conforme legislação vigente.
               </p>
               <a href={WHATSAPP_LINK} className="group inline-flex items-center gap-3 text-white text-sm font-medium hover:text-blue-400 transition-colors">
                 <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-400/10 transition-all bg-white/5">
                   <ArrowRight size={18} />
                 </div>
-                <span>Iniciar meu projeto agora</span>
+                <span>Agendar Reunião Técnica</span>
               </a>
             </div>
 
             <div className="relative pl-12 border-l border-white/10 space-y-16">
               {[
-                { step: '01', title: 'Diagnóstico', desc: 'Análise técnica detalhada da sua necessidade via WhatsApp ou visita.' },
-                { step: '02', title: 'Orçamento', desc: 'Proposta clara com prazos definidos e custos detalhados, sem surpresas.' },
-                { step: '03', title: 'Execução', desc: 'Início do serviço seguindo rigorosos protocolos de segurança e limpeza.' },
-                { step: '04', title: 'Entrega', desc: 'Finalização impecável com tudo organizado e pronto para uso.' }
+                { step: '01', title: 'Diagnóstico e Planejamento', desc: 'Vistoria técnica detalhada, mapeamento de danos e elaboração da proposta técnica com cronograma. (Semana 1-2)' },
+                { step: '02', title: 'Preparação e Mobilização', desc: 'Instalação de balancins/andaimes, isolamento de áreas de risco e treinamento de segurança específico para o local. (Semana 3)' },
+                { step: '03', title: 'Execução Técnica', desc: 'Trabalho setorizado para minimizar o impacto visual e sonoro, com relatórios fotográficos semanais para o conselho.' },
+                { step: '04', title: 'Inspeção Final e Entrega', desc: 'Vistoria de qualidade, limpeza fina e entrega de certificados de garantia e manuais de manutenção.' }
               ].map((item, i) => (
                 <div key={i} className="group cursor-pointer transition-all hover:translate-x-2">
                   <div className="text-xs font-mono text-slate-500 mb-2 group-hover:text-blue-400 transition-colors">PASSO {item.step}</div>
@@ -686,9 +686,10 @@ export default function App() {
           
           <div className="space-y-4 mb-32">
             {[
-              { q: 'Quais são os métodos de segurança?', a: 'Trabalhamos rigorosamente com EPIs e equipamentos de proteção coletiva. Nossa equipe possui treinamento específico para as funções desempenhadas.' },
-              { q: 'Atendem apenas Balneário Piçarras?', a: 'Atendemos Piçarras e cidades vizinhas na região litorânea. Entre em contato para verificar disponibilidade.' },
-              { q: 'Como funciona o orçamento?', a: 'O orçamento é feito com base na análise técnica. Prezamos pela transparência, enviando um documento detalhado.' }
+              { q: 'Como vocês garantem a segurança dos moradores durante a obra?', a: 'Isolamos 100% das áreas de circulação abaixo dos pontos de trabalho e instalamos redes de proteção e bandejas conforme a NR-18.' },
+              { q: 'Vocês parcelam o valor da obra para o condomínio?', a: 'Sim, oferecemos condições facilitadas e parcelamento direto durante o período de execução para viabilizar o fluxo de caixa do fundo de reserva.' },
+              { q: 'A empresa possui seguro contra danos a terceiros?', a: 'Sim, mantemos apólice de seguro ativa que cobre qualquer eventual dano ao patrimônio ou a veículos de moradores durante o serviço.' },
+              { q: 'O engenheiro acompanha a obra diariamente?', a: 'Toda obra possui um mestre de obras residente e visitas técnicas sistemáticas do engenheiro responsável para validação de cada etapa.' }
             ].map((faq, i) => (
               <FaqItem key={i} question={faq.q} answer={faq.a} />
             ))}
@@ -698,12 +699,12 @@ export default function App() {
           <div id="orcamento" className="mb-40">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               <div>
-                <span className="text-xs text-blue-400 font-mono mb-4 block tracking-widest uppercase">[ Orçamento Online ]</span>
+                <span className="text-xs text-blue-400 font-mono mb-4 block tracking-widest uppercase">[ Consultoria Diagnóstica ]</span>
                 <h2 className="text-4xl md:text-5xl font-medium text-white tracking-tight mb-8 leading-tight">
-                  Pronto para começar <br /> sua <span className="text-white/40">transformação?</span>
+                  Pronto para garantir a segurança e a <span className="text-white/40">valorização do seu condomínio?</span>
                 </h2>
                 <p className="text-slate-400 text-lg leading-relaxed mb-10">
-                  Preencha o formulário ao lado com os detalhes do seu projeto. Nossa equipe técnica analisará sua solicitação e entrará em contato em até 24 horas úteis.
+                  Agende uma reunião diagnóstica gratuita com nosso engenheiro. Em 60 minutos, apresentaremos uma análise preliminar da situação do seu prédio e os caminhos para uma manutenção eficiente.
                 </p>
                 
                 <div className="space-y-6">
@@ -711,19 +712,19 @@ export default function App() {
                     <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400">
                       <CheckCircle2 size={20} />
                     </div>
-                    <span>Consultoria técnica inicial gratuita</span>
+                    <span>Emissão de ART em todos os serviços</span>
                   </div>
                   <div className="flex items-center gap-4 text-white/70">
                     <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400">
                       <CheckCircle2 size={20} />
                     </div>
-                    <span>Detalhamento de materiais e prazos</span>
+                    <span>Cronograma físico-financeiro rigoroso para o condomínio</span>
                   </div>
                   <div className="flex items-center gap-4 text-white/70">
                     <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400">
                       <CheckCircle2 size={20} />
                     </div>
-                    <span>Garantia de execução Becker</span>
+                    <span>Seguro de responsabilidade civil para proteção do patrimônio</span>
                   </div>
                 </div>
               </div>
@@ -753,7 +754,7 @@ export default function App() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#012D46]">becker_reformas</h3>
-                <p className="text-slate-500 text-sm">Balneário Piçarras • Reformas e Manutenção</p>
+                <p className="text-slate-500 text-sm">Balneário Piçarras • Engenharia e Manutenção Predial</p>
               </div>
             </div>
             <a 
@@ -799,14 +800,14 @@ export default function App() {
       <section className="py-40 bg-[#012D46] border-t border-white/5">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-6xl md:text-8xl font-medium tracking-tightest text-white mb-10 leading-[0.85]">
-            Sua obra — <br /> <span className="text-white/30 italic font-serif">sem estresse.</span>
+            Seu condomínio — <br /> <span className="text-white/30 italic font-serif">protegido e valorizado.</span>
           </h2>
           <a 
             href={WHATSAPP_LINK}
             className="group relative inline-flex bg-white text-[#012D46] px-16 py-6 rounded-full font-bold text-xl overflow-hidden transition-transform hover:scale-105 shadow-2xl"
           >
             <span className="relative z-10 flex items-center gap-3">
-              Chamar no WhatsApp
+              Receber Consultoria Diagnóstica Gratuita
               <MessageCircle size={24} />
             </span>
           </a>
@@ -852,7 +853,7 @@ export default function App() {
                 className="h-12 w-auto mb-8 brightness-0 invert opacity-50"
                 referrerPolicy="no-referrer"
               />
-              <p className="text-xs text-slate-500 text-right">© 2026 Becker Reformas. <br /> Todos os direitos reservados.</p>
+              <p className="text-xs text-slate-500 text-right">© 2026 Becker Engenharia. <br /> Todos os direitos reservados. <br /> Site Desenvolvido por{' '}<a href="https://wa.me/5511996612056?text=Oi%20Daniel%20acabei%20de%20ver%20o%20Site%20da%20Becker%20e%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20para%20o%20site%20da%20minha%20empresa" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">Daniel Yada</a></p>
             </div>
           </div>
         </div>
@@ -1101,7 +1102,7 @@ const ContactForm = () => {
         ) : status === 'error' ? (
           <>Erro ao enviar. Tente novamente.</>
         ) : (
-          <>Solicitar Orçamento <Send size={20} /></>
+          <><span>Receber Consultoria Diagnóstica Gratuita</span> <Send size={20} /></>
         )}
       </button>
     </form>
