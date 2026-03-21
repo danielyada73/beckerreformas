@@ -1,0 +1,3 @@
+﻿src/App.tsx(479,7): error TS1005: ')' expected.
+src/App.tsx(1032,5): error TS1128: Declaration or statement expected.
+src/App.tsx(1033,3): error TS1109: Expression expected.

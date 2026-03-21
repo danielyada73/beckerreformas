@@ -120,8 +120,21 @@ const SpotlightCard: React.FC<{ children: React.ReactNode; className?: string }>
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<{ id: string; title: string; category: string } | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroH = heroRef.current?.offsetHeight ?? window.innerHeight;
+      setScrolled(window.scrollY > heroH * 0.6);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useLayoutEffect(() => {
     const lenis = new Lenis({
@@ -165,24 +178,22 @@ export default function App() {
         }
       );
 
-      // Horizontal scroll for services - desktop only
-      let mm = gsap.matchMedia();
-      mm.add("(min-width: 768px)", () => {
-        const track = document.querySelector(".services-track");
-        if (track) {
-          gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth + 100),
-            ease: "none",
+      // Fade in para cards de serviço
+      gsap.utils.toArray(".service-card").forEach((card: any, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: "#servicos-pin",
-              start: "top top",
-              end: () => `+=${track.scrollWidth}`,
-              pin: true,
-              scrub: 1,
-              invalidateOnRefresh: true,
-            }
-          });
-        }
+              trigger: card,
+              start: "top 85%",
+            },
+            delay: i * 0.1
+          }
+        );
       });
     }, containerRef);
 
@@ -205,7 +216,12 @@ export default function App() {
 
       {/* Navbar */}
       <nav className="fixed top-4 md:top-8 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
-        <div className="pointer-events-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 py-2 flex items-center shadow-2xl transition-all hover:bg-white/10 w-full max-w-fit justify-between">
+        <div className={cn(
+          "pointer-events-auto backdrop-blur-xl border rounded-full px-2 py-2 flex items-center shadow-2xl transition-all duration-500 w-full max-w-fit justify-between",
+          scrolled
+            ? "bg-[#012D46]/90 border-white/10 shadow-[0_8px_40px_rgba(1,45,70,0.6)]"
+            : "bg-white/90 border-[#012D46]/10 shadow-[0_8px_40px_rgba(0,0,0,0.15)]"
+        )}>
           <div className="hidden md:flex items-center">
             {[
               { label: 'Início', id: 'inicio' },
@@ -219,16 +235,24 @@ export default function App() {
                 onClick={() => {
                   document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-4 lg:px-6 py-2 text-xs font-medium text-white/70 hover:text-white rounded-full hover:bg-white/5 transition-all whitespace-nowrap"
+                className={cn(
+                  "px-4 lg:px-6 py-2 text-xs font-medium rounded-full transition-all whitespace-nowrap",
+                  scrolled
+                    ? "text-white/70 hover:text-white hover:bg-white/10"
+                    : "text-[#012D46]/70 hover:text-[#012D46] hover:bg-[#012D46]/5"
+                )}
               >
                 {item.label}
               </button>
             ))}
-            <div className="w-px h-4 bg-white/10 mx-2" />
+            <div className={cn("w-px h-4 mx-2", scrolled ? "bg-white/10" : "bg-[#012D46]/10")} />
           </div>
 
           <button 
-            className="md:hidden px-4 pl-2 py-2 text-white/70 hover:text-white"
+            className={cn(
+              "md:hidden px-4 pl-2 py-2 transition-colors",
+              scrolled ? "text-white/70 hover:text-white" : "text-[#012D46]/70 hover:text-[#012D46]"
+            )}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -238,7 +262,10 @@ export default function App() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="group px-4 md:px-6 py-2 text-xs font-bold text-[#012D46] bg-white rounded-full hover:bg-[#2F7FB4] hover:text-white transition-all shadow-lg whitespace-nowrap ml-2 md:ml-0 flex items-center shrink-0"
+            className={cn(
+              "group px-4 md:px-6 py-2 text-xs font-bold rounded-full hover:bg-[#2F7FB4] hover:text-white transition-all shadow-lg whitespace-nowrap ml-2 md:ml-0 flex items-center shrink-0",
+              scrolled ? "bg-white text-[#012D46]" : "bg-[#012D46] text-white"
+            )}
           >
             Agendar Reunião Técnica <ArrowRight size={14} className="inline-block ml-1 group-hover:translate-x-1 transition-transform" />
           </a>
@@ -277,7 +304,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section ref={heroRef} id="inicio" className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
         <div className="perspective-grid opacity-30" />
         <div className="absolute inset-0 z-0">
           <img 
@@ -394,57 +421,59 @@ export default function App() {
         </div>
       </section>
 
-      {/* Horizontal Services Section */}
+      {/* Services Section — Desktop: grid 2x2, Mobile: coluna */}
       <div id="servicos" className="relative z-30">
-        <section id="servicos-pin" className="md:h-screen relative overflow-hidden bg-[#012D46] border-t border-white/5 py-20 md:py-0">
-          <div className="md:absolute top-12 left-12 z-20 px-6 md:px-0 mb-12 md:mb-0">
-            <span className="text-xs text-blue-400 font-mono mb-3 block tracking-widest uppercase">[ Nossas Soluções Corporativas ]</span>
-            <h2 className="text-4xl font-medium text-white tracking-tight">Especialidades em Engenharia Predial</h2>
-          </div>
+        <section id="servicos-pin" className="relative bg-[#012D46] border-t border-white/5 py-20 md:py-32">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="mb-16">
+              <span className="text-xs text-blue-400 font-mono mb-3 block tracking-widest uppercase">[ Nossas Soluções Corporativas ]</span>
+              <h2 className="text-4xl font-medium text-white tracking-tight">Especialidades em Engenharia Predial</h2>
+            </div>
 
-          <div className="services-track flex flex-col md:flex-row gap-8 md:gap-16 px-6 md:px-24 md:pl-[20vw] items-center md:h-full md:w-max">
-            {[
-              {
-                title: 'Revitalização e Pintura de Fachadas',
-                desc: 'Tratamento de fissuras, lavagem técnica e pintura com tintas elastoméricas de alta durabilidade para proteção contra a maresia.',
-                icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Paintbrush className="text-blue-400" size={40} /></div>,
-                img: '110mp0drTx6sJISMihQHh75dV6RnGNtV4'
-              },
-              {
-                title: 'Impermeabilização Estrutural',
-                desc: 'Soluções definitivas para lajes, reservatórios, piscinas e garagens, eliminando infiltrações e protegendo a armadura de ferro.',
-                icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Building2 className="text-blue-400" size={40} /></div>,
-                img: '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV'
-              },
-              {
-                title: 'Recuperação Estrutural',
-                desc: 'Diagnóstico e reparo de patologias em vigas, pilares e sacadas, garantindo a integridade da edificação a longo prazo.',
-                icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Hammer className="text-blue-400" size={40} /></div>,
-                img: '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E'
-              },
-              {
-                title: 'Manutenção Preventiva Contratual',
-                desc: 'Planos anuais de vistoria e pequenos reparos que evitam gastos emergenciais elevados e mantêm o valor do imóvel.',
-                icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Trees className="text-blue-400" size={40} /></div>,
-                img: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9'
-              }
-            ].map((service, i) => (
-              <div key={i} className="w-full md:w-[70vw] max-w-[800px] h-auto md:h-[60vh] spotlight-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 shrink-0 flex flex-col md:flex-row items-center gap-8 md:gap-12 border border-white/10 bg-white/[0.02]">
-                <div className="w-full md:w-1/2 flex flex-col justify-center">
-                  <div className="mb-6 md:mb-8">{service.icon}</div>
-                  <h3 className="text-3xl md:text-5xl text-white font-medium mb-4 md:mb-6 tracking-tight">{service.title}</h3>
-                  <p className="text-base md:text-lg text-slate-400 leading-relaxed">{service.desc}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                {
+                  title: 'Revitalização e Pintura de Fachadas',
+                  desc: 'Tratamento de fissuras, lavagem técnica e pintura com tintas elastoméricas de alta durabilidade para proteção contra a maresia.',
+                  icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Paintbrush className="text-blue-400" size={40} /></div>,
+                  img: '110mp0drTx6sJISMihQHh75dV6RnGNtV4'
+                },
+                {
+                  title: 'Impermeabilização Estrutural',
+                  desc: 'Soluções definitivas para lajes, reservatórios, piscinas e garagens, eliminando infiltrações e protegendo a armadura de ferro.',
+                  icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Building2 className="text-blue-400" size={40} /></div>,
+                  img: '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV'
+                },
+                {
+                  title: 'Recuperação Estrutural',
+                  desc: 'Diagnóstico e reparo de patologias em vigas, pilares e sacadas, garantindo a integridade da edificação a longo prazo.',
+                  icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Hammer className="text-blue-400" size={40} /></div>,
+                  img: '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E'
+                },
+                {
+                  title: 'Manutenção Preventiva Contratual',
+                  desc: 'Planos anuais de vistoria e pequenos reparos que evitam gastos emergenciais elevados e mantêm o valor do imóvel.',
+                  icon: <div className="p-4 rounded-3xl bg-blue-400/10 border border-blue-400/20 shadow-[0_0_30px_rgba(47,127,180,0.2)]"><Trees className="text-blue-400" size={40} /></div>,
+                  img: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9'
+                }
+              ].map((service, i) => (
+                <div key={i} className="service-card spotlight-card rounded-[2rem] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 border border-white/10 bg-white/[0.02]">
+                  <div className="flex flex-col justify-center w-full md:w-1/2">
+                    <div className="mb-5">{service.icon}</div>
+                    <h3 className="text-2xl md:text-3xl text-white font-medium mb-3 tracking-tight">{service.title}</h3>
+                    <p className="text-sm md:text-base text-slate-400 leading-relaxed">{service.desc}</p>
+                  </div>
+                  <div className="w-full md:w-1/2 h-52 md:h-64 rounded-2xl overflow-hidden border border-white/5 shrink-0">
+                    <img 
+                      src={getImageUrl(service.img)} 
+                      alt={service.title} 
+                      className="w-full h-full object-cover hover:grayscale-0 grayscale transition-all duration-700"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                 </div>
-                <div className="w-full md:w-1/2 h-64 md:h-full rounded-2xl overflow-hidden border border-white/5">
-                  <img 
-                    src={getImageUrl(service.img)} 
-                    alt={service.title} 
-                    className="w-full h-full object-cover grayscale md:hover:grayscale-0 transition-all duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
       </div>
@@ -745,20 +774,19 @@ export default function App() {
               <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
                 <div className="w-full h-full rounded-full bg-white p-1">
                   <img 
-                    src={getImageUrl(LOGO_ID)} 
+                    src="/favicon.png" 
                     alt="Becker Logo" 
                     className="w-full h-full object-contain rounded-full"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#012D46]">becker_reformas</h3>
+                <h3 className="text-2xl font-bold text-[#012D46]">becker__empreiteira</h3>
                 <p className="text-slate-500 text-sm">Balneário Piçarras • Engenharia e Manutenção Predial</p>
               </div>
             </div>
             <a 
-              href="https://instagram.com" 
+              href="https://www.instagram.com/becker__empreiteira/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="px-8 py-3 bg-[#012D46] text-white rounded-full font-bold text-sm hover:bg-[#2F7FB4] transition-all flex items-center gap-2"
@@ -770,19 +798,25 @@ export default function App() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {[
-              '110mp0drTx6sJISMihQHh75dV6RnGNtV4',
-              '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV',
-              '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E',
-              '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9',
-              '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6',
-              '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_',
-              '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW',
-              '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn',
-              '1kzLjVFqJA81FHVB5YuCw2uTePoEcZrj7'
-            ].map((id, i) => (
-              <div key={i} className="aspect-square rounded-2xl overflow-hidden group relative cursor-pointer">
+              { id: '110mp0drTx6sJISMihQHh75dV6RnGNtV4', url: 'https://www.instagram.com/becker__empreiteira/reel/DU1be_Lke3O/' },
+              { id: '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV', url: 'https://www.instagram.com/becker__empreiteira/p/DVyYiVVkWHh/' },
+              { id: '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E', url: 'https://www.instagram.com/becker__empreiteira/reel/DU-15ShERux/' },
+              { id: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9', url: 'https://www.instagram.com/becker__empreiteira/p/DU5-WRVkbgA/' },
+              { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', url: 'https://www.instagram.com/becker__empreiteira/reel/DU3HByFEcxf/' },
+              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', url: 'https://www.instagram.com/becker__empreiteira/reel/DU1be_Lke3O/' },
+              { id: '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW', url: 'https://www.instagram.com/becker__empreiteira/' },
+              { id: '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn', url: 'https://www.instagram.com/becker__empreiteira/' },
+              { id: '1kzLjVFqJA81FHVB5YuCw2uTePoEcZrj7', url: 'https://www.instagram.com/becker__empreiteira/' }
+            ].map((post, i) => (
+              <a 
+                key={i} 
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="aspect-square rounded-2xl overflow-hidden group relative cursor-pointer block"
+              >
                 <img 
-                  src={getImageUrl(id)} 
+                  src={getImageUrl(post.id)} 
                   alt={`Instagram Post ${i + 1}`} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
@@ -790,7 +824,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <Instagram className="text-white" size={32} />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -813,6 +847,80 @@ export default function App() {
           </a>
         </div>
       </section>
+
+      {/* WhatsApp Floating Widget */}
+      <div className="fixed bottom-6 right-6 z-[200] flex flex-col items-end gap-3">
+        <AnimatePresence>
+          {isWhatsAppOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 10 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="bg-white rounded-3xl shadow-2xl w-80 overflow-hidden border border-gray-100"
+            >
+              {/* Header do widget */}
+              <div className="bg-[#25D366] px-5 py-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 24 24" fill="white" width="22" height="22">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-white font-bold text-sm">Becker Empreiteira</div>
+                  <div className="text-white/80 text-xs flex items-center gap-1">
+                    <span className="w-2 h-2 bg-white rounded-full inline-block" />
+                    Online agora
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsWhatsAppOpen(false)}
+                  className="ml-auto text-white/80 hover:text-white transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Corpo do popup */}
+              <div className="px-5 py-4">
+                <div className="bg-[#f0f4f8] rounded-2xl rounded-tl-none px-4 py-3 text-sm text-gray-700 leading-relaxed mb-4">
+                  Olá tudo bem? 👋<br />Como podemos te ajudar?
+                </div>
+                <a
+                  href="https://wa.me/5547989085767?text=Olá!%20Vi%20o%20site%20de%20vocês%20e%20gostaria%20de%20mais%20informações!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20b858] text-white font-bold py-3 rounded-2xl transition-colors text-sm"
+                  onClick={() => setIsWhatsAppOpen(false)}
+                >
+                  <svg viewBox="0 0 24 24" fill="white" width="18" height="18">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  Abrir bate-papo
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Botão flutuante */}
+        <motion.button
+          onClick={() => setIsWhatsAppOpen(!isWhatsAppOpen)}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-16 h-16 rounded-full bg-[#25D366] shadow-[0_4px_20px_rgba(37,211,102,0.5)] flex items-center justify-center transition-shadow hover:shadow-[0_4px_30px_rgba(37,211,102,0.7)]"
+          aria-label="Abrir WhatsApp"
+        >
+          {isWhatsAppOpen
+            ? <X size={24} className="text-white" />
+            : (
+              <svg viewBox="0 0 24 24" fill="white" width="30" height="30">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            )
+          }
+        </motion.button>
+      </div>
 
       {/* Footer */}
       <footer className="relative py-24 px-6 border-t border-white/5 bg-[#012D46] overflow-hidden">
@@ -848,10 +956,9 @@ export default function App() {
             </div>
             <div className="flex flex-col items-end">
               <img 
-                src={getImageUrl(LOGO_ID)} 
+                src="/favicon.png" 
                 alt="Becker Logo" 
-                className="h-12 w-auto mb-8 brightness-0 invert opacity-50"
-                referrerPolicy="no-referrer"
+                className="h-12 w-auto mb-8 opacity-70"
               />
               <p className="text-xs text-slate-500 text-right">© 2026 Becker Engenharia. <br /> Todos os direitos reservados. <br /> Site Desenvolvido por{' '}<a href="https://wa.me/5511996612056?text=Oi%20Daniel%20acabei%20de%20ver%20o%20Site%20da%20Becker%20e%20gostaria%20de%20fazer%20um%20or%C3%A7amento%20para%20o%20site%20da%20minha%20empresa" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">Daniel Yada</a></p>
             </div>
