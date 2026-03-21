@@ -610,8 +610,6 @@ export default function App() {
                 </div>
                 <div className="absolute bottom-6 left-6 right-6 whitespace-normal">
                   <div className="text-blue-400 font-mono text-[10px] uppercase tracking-widest mb-1">"{video.quote}"</div>
-                  <div className="text-white font-medium text-sm">{video.name}</div>
-                  <div className="text-white/60 text-xs">{video.city}</div>
                 </div>
               </div>
             ))}
@@ -636,12 +634,12 @@ export default function App() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { id: '110mp0drTx6sJISMihQHh75dV6RnGNtV4', title: 'Reforma de Cobertura', category: 'Residencial' },
+              { id: '110mp0drTx6sJISMihQHh75dV6RnGNtV4', title: 'Restauração e Pintura Predial', category: 'Residencial' },
               { id: '1BElxhCE0C27iqRib3PfjgD4ur12rCHtV', title: 'Manutenção de Fachada', category: 'Predial' },
               { id: '14rn3N9G1QKkU5Ij8O5D_JpnYQr6uKU0E', title: 'Área Gourmet', category: 'Lazer' },
-              { id: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9', title: 'Piscina e Deck', category: 'Lazer' },
+              { id: '1COlEk5fy9OhRgg9N-ZnCafKJZQ4Wpen9', title: 'Tratamento Estrutural', category: 'Manutenção' },
               { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', title: 'Interior Moderno', category: 'Residencial' },
-              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', title: 'Reforma Comercial', category: 'Comercial' }
+              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', title: 'Engenharia Estrutural', category: 'Comercial' }
             ].map((project, i) => (
               <ProjectCard key={i} project={project} onClick={() => setSelectedProject(project)} />
             ))}
