@@ -586,14 +586,14 @@ export default function App() {
         <div className="flex overflow-hidden group">
           <div className="flex animate-marquee whitespace-nowrap py-4">
             {[
-              { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', name: 'Ricardo S.', city: 'Piçarras', quote: 'Obra limpa e rápida!' },
-              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', name: 'Ana P.', city: 'Penha', quote: 'Super recomendo!' },
-              { id: '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW', name: 'Marcos O.', city: 'Barra Velha', quote: 'Profissionalismo nota 10.' },
-              { id: '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn', name: 'Juliana F.', city: 'Piçarras', quote: 'Prazos cumpridos.' },
-              { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', name: 'Ricardo S.', city: 'Piçarras', quote: 'Obra limpa e rápida!' },
-              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', name: 'Ana P.', city: 'Penha', quote: 'Super recomendo!' },
-              { id: '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW', name: 'Marcos O.', city: 'Barra Velha', quote: 'Profissionalismo nota 10.' },
-              { id: '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn', name: 'Juliana F.', city: 'Piçarras', quote: 'Prazos cumpridos.' }
+              { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', name: 'Ricardo S.', city: 'Piçarras', quote: 'Edifício Dona Iracema, Balneário Piçarras' },
+              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', name: 'Ana P.', city: 'Penha', quote: 'Porto Seguro, Penha' },
+              { id: '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW', name: 'Marcos O.', city: 'Barra Velha', quote: 'Alamedas do Sol, Balneário Piçarras' },
+              { id: '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn', name: 'Juliana F.', city: 'Piçarras', quote: 'Mirante do Sol, Balneário Piçarras' },
+              { id: '1vu8a1xXX_e04xSRjGdbzEzaSpa1dRLL6', name: 'Ricardo S.', city: 'Piçarras', quote: 'Edifício Dona Iracema, Balneário Piçarras' },
+              { id: '1nDtXPKJlkNrLuTUtQvksIZt1Lf8l4nz_', name: 'Ana P.', city: 'Penha', quote: 'Porto Seguro, Penha' },
+              { id: '18aR2HfzXlZiovN4Kqdmnot6tWRUMhnbW', name: 'Marcos O.', city: 'Barra Velha', quote: 'Alamedas do Sol, Balneário Piçarras' },
+              { id: '1EhyVW-mCOM1ZfSiM_0wQwvGIVE6RT4Mn', name: 'Juliana F.', city: 'Piçarras', quote: 'Mirante do Sol, Balneário Piçarras' }
             ].map((video, i) => (
               <div key={i} className="inline-block w-[300px] h-[500px] mx-4 rounded-3xl overflow-hidden border border-white/10 bg-white/5 relative group/video">
                 <img 
